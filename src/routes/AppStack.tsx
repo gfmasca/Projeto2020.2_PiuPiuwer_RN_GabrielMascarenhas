@@ -11,9 +11,9 @@ const { Navigator, Screen } = createStackNavigator();
 function AppStack() {
   return (
     <NavigationContainer>
-      <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name="Feed" component={Feed} />
+      <Navigator screenOptions={{ headerShown: false }} initialRouteName="Login" >
         <Screen name="Login" component={Login} />
+        <Screen name="Feed" component={Feed} />
       </Navigator>
     </NavigationContainer>
   );
