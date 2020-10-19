@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import { RectButton } from "react-native-gesture-handler";
 
 export const ImageView = styled.View`
     align-items: center;
@@ -51,9 +52,19 @@ export const InputText = styled.TextInput`
     border-style: solid;
     border-color: black;
     border-bottom-width: 2px;
+`
 
-    &::placeholder {
-        color: #F8F9FA;
-    }
+export const SubmitButton = styled(RectButton)`
+    height: 40px;
+    width: 100px;
+    justify-content: center;
+    align-items: center; 
+    background-color: #495057;
+    border-radius: 10px;
+    padding: 10px;
+`
 
+export const SubmitText = styled.Text`
+    color: #E9ECEF;
+    font-size: 15px;
 `

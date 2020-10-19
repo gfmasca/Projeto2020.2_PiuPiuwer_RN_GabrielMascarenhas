@@ -1,5 +1,6 @@
-import React from "react";
-import { View, Text, Image, TextInput } from "react-native";
+import React, { useState } from "react";
+import { Text } from "react-native";
+import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import LogoImg from '../../../assets/images/LogotipoEscuro.png';
@@ -11,33 +12,18 @@ import {
     FormView,
     InputBlockContainer,
     InputLabel,
-    InputText
+    InputText,
+    SubmitButton,
+    SubmitText
 } from './styles';
 
 const Login: React.FC = () => {
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
     return (
         <SafeAreaView style={{ flex: 1 }} >
-                {/* <DivContainer>
-                <div id="form-container">
-                    <form onSubmit={ handleLogin }>
-                        <fieldset> Entrar no PiuPiuwer</fieldset>
-
-                        <InputBlock onChange={(e) => { setUsername(e.target.value) }} title="PiuName ou Email" id="username" placeholder="Ex: @mandioca123" type="text" login={true}/>
-
-                        <InputBlock onChange={(e) => { setPassword(e.target.value) }} title=" Senha" id="password" type="password" login={true}/>
-                        
-                        <ButtonContainer>
-                            <DefaultLink label="Não tenho uma conta" destiny="/signin" />                        
-                            <ButtonDefault type="submit" label="Entrar" loading={loading} />
-                        </ButtonContainer>
-                    </form>
-                    <p>{ errorMessage }</p>
-                </div>
-                <div id="logo-container">
-                    <img src={LogoImg} alt="Logotipo"/>
-                </div>
-            </DivContainer> */}
-
             <ImageView>
                 <Logo source={LogoImg} resizeMode="contain" />
             </ImageView>
@@ -51,8 +37,10 @@ const Login: React.FC = () => {
                     
                     <InputBlockContainer>
                         <InputLabel>Senha</InputLabel>   
-                        <InputText placeholder="Insira sua senha" />
+                        <InputText placeholder="Insira sua senha" placeholderTextColor="#ccc"/>
                     </InputBlockContainer>
+
+                    <SubmitButton><SubmitText>Entrar</SubmitText></SubmitButton>
                 </FormView>
             </LoginView>
 
