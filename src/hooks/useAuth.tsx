@@ -1,21 +1,14 @@
 import React, { createContext, useCallback, useState, useContext, useEffect } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import api from '../services/api';
 
+import User from '../interfaces/User';
 interface UserAuth {
     username: string;
     password: string;
 }
 
-export interface User {
-    id: number;
-    username: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    sobre: string;
-    foto: string
-}
 
 interface AuthState {
     token: string;
@@ -38,8 +31,10 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     useEffect(() => {
         async function carregarDadosDoUsuario() {
-            const user = localStorage.getItem('@PiuPiuwer:user');
-            const token = localStorage.getItem('@PiuPiuwer:token');
+            // const user = localStorage.getItem('@PiuPiuwer:user');
+            // const token = localStorage.getItem('@PiuPiuwer:token');
+            const user = await AsyncStorage.getItem('@PiuPiuwer:user')
+            const token = await AsyncStorage.getItem('@PiuPiuwer:token')
 
             if (user && token) {
                 api.defaults.headers.authorization = `JWT ${token}`;
@@ -51,7 +46,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     }, []);
 
     const login = useCallback( async (cred: UserAuth) => {
-
         try {
             const response = await api.post('/login/', cred);
             const token = response.data.token;
@@ -60,22 +54,21 @@ export const AuthProvider: React.FC = ({ children }) => {
                 const userResponse = await api.get(`usuarios/?search=${cred.username}`);
                 const user = userResponse.data[0];
     
-                localStorage.setItem('@PiuPiuwer:user', JSON.stringify(user));
-                localStorage.setItem('@PiuPiuwer:token', token);
-    
+                AsyncStorage.setItem('@PiuPiuwer:user', JSON.stringify(user));
+                AsyncStorage.setItem('@PiuPiuwer:token', token);
                 setData({token: token, user: user});
             }
         }
         
         catch {
-            
+            alert('deu ruim parca')
         }
         
     }, []);
 
     const logout = useCallback(() => {
-        localStorage.removeItem('@PiuPiuwer:user');
-        localStorage.removeItem('@PiuPiuwer:token');
+        AsyncStorage.removeItem('@PiuPiuwer:user');
+        AsyncStorage.removeItem('@PiuPiuwer:token');
         setData({} as AuthState)
     }, [])
 
@@ -89,6 +82,5 @@ export const AuthProvider: React.FC = ({ children }) => {
 // NAO ENTENDI DIREITO ESSE AUTHCONTEXT
 export function useAuth(): AuthContextData {
     const context = useContext(AuthContext);
-
     return context
 }
