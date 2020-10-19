@@ -1,10 +1,16 @@
-import styled from 'styled-components/native'
+import styled, { css } from 'styled-components/native'
+
+interface DeleteButtonProps {
+    yourPiu: boolean;
+}
 
 export const PiuContainer = styled.View`
     height: 100px;
     width: 100%;
+    
+    /* max-width: 400px;; */
     flex-direction: row;
-    background-color: #6C757D;
+    background-color: #343A40;
     padding: 10px;
     position: relative;
     justify-content: space-between;
@@ -36,6 +42,11 @@ export const Username = styled.Text`
 
 export const PiuText = styled.Text`
     color: #E9ECEF;
+    /* width: 0; */
+    flex-wrap: wrap;
+    width: 180px;
+    flex-grow: 1;
+    flex: 1;
 `
 
 export const LikeButton = styled.View`
@@ -47,7 +58,7 @@ export const LikeButton = styled.View`
 
 export const Likes = styled.Text`
     margin: 0 8px 0 0;
-    color: #212529;
+    color: #DEE2E6;
 `
 
 export const LikeImg = styled.Image`
@@ -55,7 +66,10 @@ export const LikeImg = styled.Image`
     height: 30px;
 `
 
-export const DeleteButton = styled.View`
+export const DeleteButton = styled.View<DeleteButtonProps>`
+    ${ props => 
+        !props.yourPiu && css`display: none`  
+    }
 `
 
 export const DeleteImg = styled.Image`

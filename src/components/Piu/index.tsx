@@ -7,9 +7,10 @@ import React from 'react';
 // utils
 
 // hooks
+import { useAuth } from '../../hooks/useAuth';
 
 // images
-import likeImg from '../../assets/images/like.png';
+import liked from '../../assets/images/like.png';
 import deleteImg from '../../assets/images/x-mark.png';
 
 // components
@@ -38,30 +39,8 @@ import InfoPiu from '../../interfaces/InfoPiu';
 
 // COMPONENT
 const Piu: React.FC<InfoPiu> = ({ likers, texto, usuario }) => {
+    const { user } = useAuth()
     return (
-        // <PiuContainer piuVisibility={ piuVisibility } >
-        //     <ProfilePictureContainer>
-        //         <img src={ usuario.foto } alt="foto de perfil" />
-        //         <div>
-        //             <UsernameTimeContainer>
-        //                 <h3 className="username">{ usuario.username }</h3>
-        //                 <p>{ relativeTime }</p>
-        //             </UsernameTimeContainer>
-        //             <p>{ texto }</p>
-        //         </div>
-        //     </ProfilePictureContainer>
-        //     <Actions>
-        //         <span onClick={ handleLike } ><p>{ likers.length }</p>
-        //         {/* if liked src = x else scr = y */}
-        //             <img src={ isLiked ? FilledLikeButton : LikeButton } alt="botão de like" />
-        //         </span>
-        //     </Actions>
-            
-        //     <DeleteButtonSpan onClick={ handleDelete } yourPiu={ usuario.id === user.id }>
-        //         <img src={DeleteButton} alt="botão para salvar o piu" />
-        //     </DeleteButtonSpan>
-        // </PiuContainer>
-
         <PiuContainer>
             <PiuMainContentContainer>
                 <UserImg source={{uri: usuario.foto}} />
@@ -73,10 +52,10 @@ const Piu: React.FC<InfoPiu> = ({ likers, texto, usuario }) => {
 
             <LikeButton>
                 <Likes>{ likers.length }</Likes>
-                <LikeImg source={likeImg} resizeMode="contain" />
+                <LikeImg source={liked} resizeMode="contain" />
             </LikeButton>
 
-            <DeleteButton>
+            <DeleteButton yourPiu={user.id === usuario.id} >
                 <DeleteImg source={deleteImg} resizeMode="contain" />
             </DeleteButton>
         </PiuContainer>
