@@ -3,11 +3,10 @@ import User from './User';
 interface InfoPiu {
     id: number;
     usuario: User;
-    // likers: Array<User>;
-    likers: Array<number>;
-    // favoritado_por: Array<User>;
+    likers: Array<User>;
+    favoritado_por: Array<User>;
     texto: string;
-    // horario: string;
+    horario: string;
 };
 
 export default InfoPiu;
