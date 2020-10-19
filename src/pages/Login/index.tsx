@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Text } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import LogoImg from '../../../assets/images/LogotipoEscuro.png';
+import { useAuth } from "../../hooks/useAuth";
 
 import {
     ImageView,
@@ -18,9 +19,14 @@ import {
 } from './styles';
 
 const Login: React.FC = () => {
-
+    const { login } = useAuth();
+    
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+
+    const handleLogin = useCallback(() => {
+        login({ username, password });
+    }, [login, username, password])
 
     return (
         <SafeAreaView style={{ flex: 1 }} >
@@ -32,15 +38,26 @@ const Login: React.FC = () => {
                 <FormView>
                     <InputBlockContainer>
                         <InputLabel>PiuName</InputLabel>   
-                        <InputText placeholder="Insira o nome de usuário" placeholderTextColor="#ccc" />
+                        <InputText 
+                            placeholder="Insira o nome de usuário"
+                            placeholderTextColor="#ccc"
+                            value={username}
+                            onChangeText={ text => setUsername(text) }
+                        />
                     </InputBlockContainer>
                     
                     <InputBlockContainer>
                         <InputLabel>Senha</InputLabel>   
-                        <InputText placeholder="Insira sua senha" placeholderTextColor="#ccc"/>
+                        <InputText 
+                            secureTextEntry
+                            placeholder="Insira sua senha" 
+                            placeholderTextColor="#ccc"
+                            value={password}
+                            onChangeText={ text => setPassword(text) }
+                        />
                     </InputBlockContainer>
 
-                    <SubmitButton><SubmitText>Entrar</SubmitText></SubmitButton>
+                    <SubmitButton onPress={ handleLogin } ><SubmitText>Entrar</SubmitText></SubmitButton>
                 </FormView>
             </LoginView>
 
