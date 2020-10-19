@@ -4,11 +4,10 @@ import { RectButton } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import LogoImg from '../../../assets/images/LogotipoEscuro.png';
+import Header from "../../components/Header";
 import { useAuth } from "../../hooks/useAuth";
 
 import {
-    ImageView,
-    Logo,
     LoginView,
     FormView,
     InputBlockContainer,
@@ -30,9 +29,11 @@ const Login: React.FC = () => {
 
     return (
         <SafeAreaView style={{ flex: 1 }} >
-            <ImageView>
+            {/* <ImageView>
                 <Logo source={LogoImg} resizeMode="contain" />
-            </ImageView>
+            </ImageView> */}
+
+            <Header />
 
             <LoginView> 
                 <FormView>

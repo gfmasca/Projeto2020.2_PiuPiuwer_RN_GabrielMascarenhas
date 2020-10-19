@@ -16,7 +16,7 @@ export const Logo = styled.Image`
 `
 
 export const LoginView = styled.View`
-    height: 92%;
+    height: 94%;
     width: 100%;
     background: #495057;
     align-items: center;
