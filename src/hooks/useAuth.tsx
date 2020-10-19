@@ -29,21 +29,21 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     const [data, setData] = useState<AuthState>({} as AuthState);
 
-    useEffect(() => {
-        async function carregarDadosDoUsuario() {
-            // const user = localStorage.getItem('@PiuPiuwer:user');
-            // const token = localStorage.getItem('@PiuPiuwer:token');
-            const user = await AsyncStorage.getItem('@PiuPiuwer:user')
-            const token = await AsyncStorage.getItem('@PiuPiuwer:token')
+    // useEffect(() => {
+    //     async function carregarDadosDoUsuario() {
+    //         // const user = localStorage.getItem('@PiuPiuwer:user');
+    //         // const token = localStorage.getItem('@PiuPiuwer:token');
+    //         const user = await AsyncStorage.getItem('@PiuPiuwer:user')
+    //         const token = await AsyncStorage.getItem('@PiuPiuwer:token')
 
-            if (user && token) {
-                api.defaults.headers.authorization = `JWT ${token}`;
-                setData({ user: JSON.parse(user), token });
-            }
-        }
+    //         if (user && token) {
+    //             api.defaults.headers.authorization = `JWT ${token}`;
+    //             setData({ user: JSON.parse(user), token });
+    //         }
+    //     }
 
-        carregarDadosDoUsuario();
-    }, []);
+    //     carregarDadosDoUsuario();
+    // }, []);
 
     const login = useCallback( async (cred: UserAuth) => {
         try {
@@ -54,8 +54,8 @@ export const AuthProvider: React.FC = ({ children }) => {
                 const userResponse = await api.get(`usuarios/?search=${cred.username}`);
                 const user = userResponse.data[0];
     
-                AsyncStorage.setItem('@PiuPiuwer:user', JSON.stringify(user));
-                AsyncStorage.setItem('@PiuPiuwer:token', token);
+                // AsyncStorage.setItem('@PiuPiuwer:user', JSON.stringify(user));
+                // AsyncStorage.setItem('@PiuPiuwer:token', token);
                 setData({token: token, user: user});
             }
         }
