@@ -19,14 +19,21 @@ import {
     PiusContainer
 } from './styles'; 
 import { render } from "react-dom";
+import NewPiuModal from "../../components/WritePiuModal";
 
 const Feed: React.FC = () => {
     const { logout, user } = useAuth();
     const { carregarPius, pius } = usePius();
+    
+    const [modalVisibility, setModalVisibility] = useState(false);
 
     const handleLogout = useCallback(() => {
         logout();
     }, []);
+
+    const handleModalVisibility = useCallback(() => {
+        setModalVisibility(true);
+    }, [setModalVisibility])
 
     useEffect(() => {
         carregarPius();
@@ -53,25 +60,13 @@ const Feed: React.FC = () => {
             <ContentContainer>
                 <NewPiuContainer>
                     <NewPiuText>Dê um novo Piu</NewPiuText>
-                    <NewPiuButton><NewPiuImage source={ BirdImage } /></NewPiuButton>
+                    <NewPiuButton onPress={handleModalVisibility} ><NewPiuImage source={ BirdImage } /></NewPiuButton>
                 </NewPiuContainer>
 
+                <NewPiuModal visible={modalVisibility} setModalVisibility={setModalVisibility} />
+
                 <PiusContainer>
-                    {/* <ScrollView showsVerticalScrollIndicator={false}>
-                        { pius.map(piu => {
-                            return (
-                                <Piu 
-                                    favoritado_por={piu.favoritado_por}
-                                    horario={piu.horario}
-                                    id={piu.id}
-                                    likers={piu.likers}
-                                    texto={piu.texto}
-                                    usuario={piu.usuario}
-                                    key={piu.id}
-                                />
-                            )
-                        } ) }
-                    </ScrollView> */}
+                    
                     <FlatList 
                         data={pius}
                         renderItem={renderItem}
