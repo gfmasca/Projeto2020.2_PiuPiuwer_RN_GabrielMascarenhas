@@ -10,7 +10,8 @@ import React from 'react';
 import { useAuth } from '../../hooks/useAuth';
 
 // images
-import liked from '../../assets/images/like.png';
+import likedImg from '../../assets/images/like.png';
+import likeImg from '../../assets/images/notLiked.png';
 import deleteImg from '../../assets/images/x-mark.png';
 
 // components
@@ -36,10 +37,14 @@ import InfoPiu from '../../interfaces/InfoPiu';
 
 // new
 
+interface PiuProps extends InfoPiu {
+    isLiked: boolean;
+}
 
 // COMPONENT
-const Piu: React.FC<InfoPiu> = ({ likers, texto, usuario }) => {
-    const { user } = useAuth()
+const Piu: React.FC<PiuProps> = ({ likers, texto, usuario, isLiked }) => {
+    const { user } = useAuth();
+
     return (
         <PiuContainer>
             <PiuMainContentContainer>
@@ -52,7 +57,7 @@ const Piu: React.FC<InfoPiu> = ({ likers, texto, usuario }) => {
 
             <LikeButton>
                 <Likes>{ likers.length }</Likes>
-                <LikeImg source={liked} resizeMode="contain" />
+                <LikeImg source={ isLiked ? likedImg : likeImg} resizeMode="contain" />
             </LikeButton>
 
             <DeleteButton yourPiu={user.id === usuario.id} >

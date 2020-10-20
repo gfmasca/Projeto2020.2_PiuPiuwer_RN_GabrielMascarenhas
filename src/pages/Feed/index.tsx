@@ -23,7 +23,7 @@ import NewPiuModal from "../../components/WritePiuModal";
 
 const Feed: React.FC = () => {
     const { logout, user } = useAuth();
-    const { carregarPius, pius } = usePius();
+    const { carregarPius, pius, likedPiusIds } = usePius();
     
     const [modalVisibility, setModalVisibility] = useState(false);
 
@@ -49,6 +49,7 @@ const Feed: React.FC = () => {
                 texto={item.texto}
                 usuario={item.usuario}
                 key={item.id}
+                isLiked={likedPiusIds.includes(item.id)}
             />
         )
     }
@@ -56,7 +57,6 @@ const Feed: React.FC = () => {
     return (
         <SafeAreaView>
             <Header />
-            {/* <RectButton onPress={ handleLogout } ><Text>Logout</Text></RectButton> */}
             <ContentContainer>
                 <NewPiuContainer>
                     <NewPiuText>Dê um novo Piu</NewPiuText>

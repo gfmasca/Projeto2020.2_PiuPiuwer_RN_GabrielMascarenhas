@@ -1,5 +1,5 @@
 // libs
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 
 
 // services
@@ -21,6 +21,7 @@ interface PiusContextData {
     postarPiu(texto: string): void;
     pius: Array<InfoPiu>;
     setPius(pius: Array<InfoPiu>): void; 
+    likedPiusIds: Array<number>;
 };
 
 
@@ -61,8 +62,16 @@ export const PiusProvider: React.FC = ({ children }) => {
         }
     }, [setPius, user, api]);
 
+    const likedPiusIds = useMemo(() => {
+        const likedPius = pius.filter(piu => {
+            const likersIds = piu.likers.map(user => user.id);
+            return likersIds.includes(user.id);
+        })
+        return likedPius.map(piu => piu.id);
+    }, [pius, user]);
+
     return (
-        <PiusContext.Provider value={{ carregarPius, pius, setPius, postarPiu }}>
+        <PiusContext.Provider value={{ carregarPius, pius, setPius, postarPiu, likedPiusIds }}>
             {children}
         </PiusContext.Provider>
     )
