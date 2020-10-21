@@ -70,7 +70,7 @@ const Feed: React.FC = () => {
                     <FlatList 
                         data={pius}
                         renderItem={renderItem}
-                        keyExtractor={(item, index) => item.id.toString()}
+                        keyExtractor={(item) => item.id.toString()}
                     />
                     {/* <Piu id={1} texto='eaemeupovo' likers={[1, 2, 3]} usuario={user} /> */}
                 </PiusContainer>
