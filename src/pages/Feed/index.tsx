@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Text, View } from "react-native";
-import { FlatList, RectButton, ScrollView } from "react-native-gesture-handler";
+import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import Header from "../../components/Header";
 import { useAuth } from "../../hooks/useAuth";
 import Piu from "../../components/Piu";
@@ -26,11 +26,7 @@ const Feed: React.FC = () => {
     const { carregarPius, pius, likedPiusIds } = usePius();
     
     const [modalVisibility, setModalVisibility] = useState(false);
-
-    const handleLogout = useCallback(() => {
-        logout();
-    }, []);
-
+    
     const handleModalVisibility = useCallback(() => {
         setModalVisibility(true);
     }, [setModalVisibility])
