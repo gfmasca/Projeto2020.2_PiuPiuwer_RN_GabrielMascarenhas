@@ -1,6 +1,6 @@
 // libs
 import React, { useCallback, useState } from 'react';
-
+import { ActivityIndicator } from 'react-native';
 
 // services
 
@@ -8,6 +8,7 @@ import React, { useCallback, useState } from 'react';
 
 // hooks
 import { useAuth } from '../../hooks/useAuth';
+import { usePius } from '../../hooks/usePius';
 
 // images
 import LogoImg from '../../assets/images/LogotipoEscuro.png';
@@ -19,9 +20,11 @@ import {
     HeaderContainer,
     Logo,
     LogoutButton,
-    LogoutText,
     AuxiliarContainer,
-    LogoContainer
+    LogoContainer,
+    RefreshContainer,
+    RefreshIcon,
+    LogoutIcon
 } from './styles'
 
 // INTERFACES
@@ -35,11 +38,19 @@ interface HeaderProps {
 // COMPONENT
 const Header: React.FC<HeaderProps> = ({ isLogin=false }) => {
     const { logout } = useAuth();
+    const { carregarPius } = usePius();
     const [isPressed, setIsPressed] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleLogout = useCallback(() => { 
         logout();
      }, [logout])
+
+    const handleRefresh = useCallback(async () => {
+        setIsLoading(true);
+        await carregarPius();
+        setIsLoading(false);
+    }, [carregarPius, setIsLoading]);
 
     return (
         <HeaderContainer >
@@ -50,13 +61,22 @@ const Header: React.FC<HeaderProps> = ({ isLogin=false }) => {
                     isPressed={isPressed}
                     onPress={handleLogout}
                 >
-                    <LogoutText>Logout</LogoutText>
+                    <LogoutIcon name="logout" size={20} color="black" />   
+                    {/* <LogoutText>Logout</LogoutText> */}
                 </LogoutButton>
             </AuxiliarContainer>
             <LogoContainer>
                 <Logo source={LogoImg} resizeMode="contain" />
             </LogoContainer>
-            <AuxiliarContainer  isLogin={isLogin} />
+            <AuxiliarContainer refreshContainer isLogin={isLogin}>
+                <RefreshContainer onPress={handleRefresh} hitSlop={5}>
+                    {
+                        isLoading 
+                        ? <ActivityIndicator color='black' />
+                        : <RefreshIcon name="refresh" size={28} color="black" />    
+                    }
+                </RefreshContainer>
+            </AuxiliarContainer>
         </HeaderContainer>
     )
 }
