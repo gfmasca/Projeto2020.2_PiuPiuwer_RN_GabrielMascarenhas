@@ -13,7 +13,6 @@ const AppRoutes: React.FC = () => {
         headerShown: false
       }}
     >
-      {/* <Screen name='Tabs' component={TabsRoutes} /> */}
       <Screen name="Feed" component={Feed} />
     </Navigator>
   );
