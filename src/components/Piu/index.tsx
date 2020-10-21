@@ -1,6 +1,6 @@
 // libs
-import React from 'react';
-
+import React, { useCallback } from 'react';
+import { Pressable } from 'react-native';
 
 // services
 
@@ -8,6 +8,7 @@ import React from 'react';
 
 // hooks
 import { useAuth } from '../../hooks/useAuth';
+import { usePius } from '../../hooks/usePius';
 
 // images
 import likedImg from '../../assets/images/like.png';
@@ -28,7 +29,8 @@ import {
     Likes,
     LikeImg,
     DeleteButton,
-    DeleteImg
+    DeleteImg,
+    DeletePressable
 } from './styles'
 
 // INTERFACES
@@ -42,8 +44,18 @@ interface PiuProps extends InfoPiu {
 }
 
 // COMPONENT
-const Piu: React.FC<PiuProps> = ({ likers, texto, usuario, isLiked }) => {
+const Piu: React.FC<PiuProps> = ({ id, likers, texto, usuario, isLiked }) => {
     const { user } = useAuth();
+    const { likePiu, deletePiu } = usePius()
+
+    const handleLike = useCallback(() => {
+        likePiu(isLiked, id);
+        // console.log('coe')
+    }, [likePiu, isLiked, id]);
+
+    const handleDelete = useCallback(() => {
+        deletePiu(id);
+    }, [deletePiu, id]);
 
     return (
         <PiuContainer>
@@ -57,11 +69,15 @@ const Piu: React.FC<PiuProps> = ({ likers, texto, usuario, isLiked }) => {
 
             <LikeButton>
                 <Likes>{ likers.length }</Likes>
-                <LikeImg source={ isLiked ? likedImg : likeImg} resizeMode="contain" />
+                <Pressable hitSlop={17} onPress={handleLike} >
+                    <LikeImg source={ isLiked ? likedImg : likeImg} resizeMode="contain" />
+                </Pressable>
             </LikeButton>
 
             <DeleteButton yourPiu={user.id === usuario.id} >
-                <DeleteImg source={deleteImg} resizeMode="contain" />
+                <DeletePressable hitSlop={10} onPress={handleDelete}>
+                    <DeleteImg source={deleteImg} resizeMode="contain" />
+                </DeletePressable>
             </DeleteButton>
         </PiuContainer>
     )

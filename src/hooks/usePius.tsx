@@ -22,6 +22,8 @@ interface PiusContextData {
     pius: Array<InfoPiu>;
     setPius(pius: Array<InfoPiu>): void; 
     likedPiusIds: Array<number>;
+    likePiu(isLiked: boolean, thisPiuId: number): void;
+    deletePiu(id: number): void;
 };
 
 
@@ -49,18 +51,55 @@ export const PiusProvider: React.FC = ({ children }) => {
                 usuario: user.id,
                 texto: texto
             }
-            console.log(piuData);
     
             const response = await api.post('/pius/', piuData);
             const novoPiu = response.data;
-            console.log(novoPiu);
-    
             setPius([ novoPiu, ...pius ]);
         } 
         catch(e) {
             console.log(e.response);
         }
-    }, [setPius, user, api]);
+    }, [setPius, user, api, pius]);
+
+    const deletePiu = useCallback(async (id) => {
+        const piusAtualizados = pius.filter(piu => piu.id !== id);
+        setPius(piusAtualizados);
+        const response = await api.delete(`/pius/${id}/`);
+        console.log(response);
+    }, [api, pius, setPius])
+
+    const likePiu = useCallback(async (isLiked, thisPiuId) => {
+        // criar [] <- mudando os pius(estado) atualizando ele do jeito que eu quero, dps setando os proprio piu como esse cara
+
+        const piusAtualizados = pius.map((piu) => {
+
+            if ( !isLiked && piu.id === thisPiuId) {
+                return {
+                    ...piu,
+                    likers: [
+                        ...piu.likers,
+                        user
+                    ]
+                }
+            } else if (isLiked && piu.id === thisPiuId ) {
+                return {
+                    ...piu, 
+                    likers: piu.likers.filter(liker => liker.id !== user.id)
+                }
+            } else {
+                return piu;
+            }
+            
+        });
+
+        setPius( piusAtualizados );
+
+        await api.post('pius/dar-like/', {
+            usuario: user.id,
+            piu: thisPiuId,
+        } );
+
+    }, [ pius, setPius, user ]);
 
     const likedPiusIds = useMemo(() => {
         const likedPius = pius.filter(piu => {
@@ -71,7 +110,7 @@ export const PiusProvider: React.FC = ({ children }) => {
     }, [pius, user]);
 
     return (
-        <PiusContext.Provider value={{ carregarPius, pius, setPius, postarPiu, likedPiusIds }}>
+        <PiusContext.Provider value={{ carregarPius, pius, setPius, postarPiu, likedPiusIds, likePiu, deletePiu }}>
             {children}
         </PiusContext.Provider>
     )

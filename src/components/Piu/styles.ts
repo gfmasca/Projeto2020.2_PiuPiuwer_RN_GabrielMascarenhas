@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components/native'
-
+import { Pressable } from "react-native";
 interface DeleteButtonProps {
     yourPiu: boolean;
 }
 
 export const PiuContainer = styled.View`
-    height: 100px;
+    min-height: 100px;
     width: 100%;
     
     /* max-width: 400px;; */
@@ -70,6 +70,13 @@ export const DeleteButton = styled.View<DeleteButtonProps>`
     ${ props => 
         !props.yourPiu && css`display: none`  
     }
+`
+
+export const DeletePressable = styled(Pressable)`
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0px;
 `
 
 export const DeleteImg = styled.Image`
