@@ -1,5 +1,9 @@
-import styled from 'styled-components/native'
+import styled, { css } from 'styled-components/native'
 import { RectButton } from "react-native-gesture-handler";
+
+interface LetterCounterProps {
+    unvalidPiu: boolean;
+}
 
 export const ContentContainer = styled.View`
     background-color: #343A40;
@@ -40,10 +44,14 @@ export const InputNewPiu = styled.TextInput`
 
 `
 
-export const LetterCounter = styled.Text`
+export const LetterCounter = styled.Text<LetterCounterProps>`
     color: #ADB5BD;
     margin-top: 10px;
     margin-bottom: 30px;
+    ${props => props.unvalidPiu && css`
+        color: red;
+        font-weight: bold;
+    `}
 `
 
 export const SubmitNewPiu = styled.Button`

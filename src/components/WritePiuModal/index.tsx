@@ -1,7 +1,6 @@
 // libs
 import React, { useCallback, useMemo, useState } from 'react';
-import { Modal, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import { ActivityIndicator } from 'react-native';
 // services
 
 // utils
@@ -32,13 +31,14 @@ import {
 // new
 interface NewPiuModalProps { 
     visible: boolean;
-    setModalVisibility: Function;
+    setModalVisibility(setter: boolean): void;
 }
 
 // COMPONENT
 const NewPiuModal: React.FC<NewPiuModalProps> = ({ visible, setModalVisibility }) => {
     const [newPiuContent, setNewPiuContent] = useState('');
     const [letterNumber, setLetterNumber] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
     const { postarPiu } = usePius();
     
     const actionsDisability = useMemo(() => {
@@ -47,10 +47,12 @@ const NewPiuModal: React.FC<NewPiuModalProps> = ({ visible, setModalVisibility }
 
     const handleModalVisibility = useCallback(() => {
         setModalVisibility(false)
-    }, [])
+    }, [setModalVisibility])
 
-    const handlePostPiu = useCallback(() => {
-        postarPiu(newPiuContent);
+    const handlePostPiu = useCallback(async () => {
+        setIsLoading(true);
+        await postarPiu(newPiuContent);
+        setIsLoading(false);
         setModalVisibility(false);
         setNewPiuContent('');
         setLetterNumber(0);
@@ -74,10 +76,11 @@ const NewPiuModal: React.FC<NewPiuModalProps> = ({ visible, setModalVisibility }
                     }}
                     value={newPiuContent}
                 />
-                <LetterCounter>{letterNumber}{' '}/ 140</LetterCounter>
-                <SubmitNewPiu color='#495057' disabled={actionsDisability} title='Piar!' onPress={handlePostPiu} >
-                    {/* <SubmitNewPiuText>Piar!</SubmitNewPiuText> */}
-                </SubmitNewPiu>
+                <LetterCounter unvalidPiu={actionsDisability} >{letterNumber}{' '}/ 140</LetterCounter>
+                { isLoading 
+                    ? <ActivityIndicator color='black' />
+                    : <SubmitNewPiu color='#495057' disabled={actionsDisability} title='Piar!' onPress={handlePostPiu} />
+                }
             </ContentContainer>
         </StyledModal>
     )
