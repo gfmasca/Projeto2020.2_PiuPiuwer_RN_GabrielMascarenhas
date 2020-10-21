@@ -64,13 +64,13 @@ export const AuthProvider: React.FC = ({ children }) => {
             alert('deu ruim parca')
         }
         
-    }, []);
+    }, [setData, api]);
 
     const logout = useCallback(() => {
         AsyncStorage.removeItem('@PiuPiuwer:user');
         AsyncStorage.removeItem('@PiuPiuwer:token');
-        setData({} as AuthState)
-    }, [])
+        setData({ token: '', user: {} as User })
+    }, [setData])
 
     return (
         <AuthContext.Provider value={{ user: data.user, login, token: data.token, logout }}>

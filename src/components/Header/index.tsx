@@ -1,5 +1,5 @@
 // libs
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 
 // services
@@ -7,6 +7,7 @@ import React from 'react';
 // utils
 
 // hooks
+import { useAuth } from '../../hooks/useAuth';
 
 // images
 import LogoImg from '../../assets/images/LogotipoEscuro.png';
@@ -15,21 +16,48 @@ import LogoImg from '../../assets/images/LogotipoEscuro.png';
 
 // styled-components
 import {
-    ImageView,
-    Logo
+    HeaderContainer,
+    Logo,
+    LogoutButton,
+    LogoutText,
+    AuxiliarContainer,
+    LogoContainer
 } from './styles'
 
 // INTERFACES
 // imports
 
 // new
+interface HeaderProps {
+    isLogin?: boolean
+}
 
 // COMPONENT
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ isLogin=false }) => {
+    const { logout } = useAuth();
+    const [isPressed, setIsPressed] = useState(false);
+
+    const handleLogout = useCallback(() => { 
+        logout();
+     }, [logout])
+
     return (
-        <ImageView >
-            <Logo source={LogoImg} resizeMode="contain" />
-        </ImageView>
+        <HeaderContainer >
+            <AuxiliarContainer isLogin={isLogin} >
+                <LogoutButton
+                    onPressIn={() => {setIsPressed(true)}} 
+                    onPressOut={() => {setIsPressed(true)}}
+                    isPressed={isPressed}
+                    onPress={handleLogout}
+                >
+                    <LogoutText>Logout</LogoutText>
+                </LogoutButton>
+            </AuxiliarContainer>
+            <LogoContainer>
+                <Logo source={LogoImg} resizeMode="contain" />
+            </LogoContainer>
+            <AuxiliarContainer  isLogin={isLogin} />
+        </HeaderContainer>
     )
 }
 

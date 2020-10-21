@@ -33,7 +33,7 @@ const Login: React.FC = () => {
                 <Logo source={LogoImg} resizeMode="contain" />
             </ImageView> */}
 
-            <Header />
+            <Header isLogin />
 
             <LoginView> 
                 <FormView>
