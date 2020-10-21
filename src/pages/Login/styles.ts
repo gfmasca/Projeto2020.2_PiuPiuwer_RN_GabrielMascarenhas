@@ -32,6 +32,7 @@ export const FormView = styled.View`
     background-color: #212529;
     align-items: flex-start;
     justify-content: space-between;
+    margin-bottom: 10px;
 `
 
 export const InputBlockContainer = styled.View`
@@ -67,4 +68,10 @@ export const SubmitButton = styled(RectButton)`
 export const SubmitText = styled.Text`
     color: #E9ECEF;
     font-size: 15px;
+`
+
+export const ErrorMessage = styled.Text`
+    margin-bottom: 10px;
+    color: red;
+    font-weight: bold;
 `
