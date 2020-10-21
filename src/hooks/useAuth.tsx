@@ -61,7 +61,7 @@ export const AuthProvider: React.FC = ({ children }) => {
         }
         
         catch {
-            alert('deu ruim parca')
+            alert('Usuário ou senha inválidos!');
         }
         
     }, [setData, api]);

@@ -50,7 +50,6 @@ const Piu: React.FC<PiuProps> = ({ id, likers, texto, usuario, isLiked }) => {
 
     const handleLike = useCallback(() => {
         likePiu(isLiked, id);
-        // console.log('coe')
     }, [likePiu, isLiked, id]);
 
     const handleDelete = useCallback(() => {
