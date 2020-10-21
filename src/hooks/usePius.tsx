@@ -33,7 +33,7 @@ const PiusContext = createContext<PiusContextData>({} as PiusContextData );
 export const PiusProvider: React.FC = ({ children }) => {
     const { user } = useAuth()
 
-    const [pius, setPius] = useState<Array<InfoPiu>>([] as Array<InfoPiu>)
+    const [pius, setPius] = useState<Array<InfoPiu>>([] as Array<InfoPiu>);
 
     const carregarPius = useCallback(async () => {
         try {
@@ -43,7 +43,7 @@ export const PiusProvider: React.FC = ({ children }) => {
         } catch (error) {
             alert('Erro no carregamento dos pius, tente novamente mais tarde.')
         }
-    }, [])
+    }, [setPius, api])
 
     const postarPiu = useCallback(async (texto) => {
         try {
@@ -51,7 +51,6 @@ export const PiusProvider: React.FC = ({ children }) => {
                 usuario: user.id,
                 texto: texto
             }
-    
             const response = await api.post('/pius/', piuData);
             const novoPiu = response.data;
             setPius([ novoPiu, ...pius ]);
@@ -59,13 +58,12 @@ export const PiusProvider: React.FC = ({ children }) => {
         catch(e) {
             console.log(e.response);
         }
-    }, [setPius, user, api, pius]);
+    }, [setPius, user, api, pius, carregarPius]);
 
     const deletePiu = useCallback(async (id) => {
         const piusAtualizados = pius.filter(piu => piu.id !== id);
         setPius(piusAtualizados);
         const response = await api.delete(`/pius/${id}/`);
-        console.log(response);
     }, [api, pius, setPius])
 
     const likePiu = useCallback(async (isLiked, thisPiuId) => {
@@ -99,7 +97,7 @@ export const PiusProvider: React.FC = ({ children }) => {
             piu: thisPiuId,
         } );
 
-    }, [ pius, setPius, user ]);
+    }, [ pius, setPius, user, api ]);
 
     const likedPiusIds = useMemo(() => {
         const likedPius = pius.filter(piu => {
