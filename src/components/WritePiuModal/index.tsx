@@ -42,7 +42,7 @@ const NewPiuModal: React.FC<NewPiuModalProps> = ({ visible, setModalVisibility }
     const { postarPiu } = usePius();
     
     const actionsDisability = useMemo(() => {
-        return letterNumber >= 140;
+        return letterNumber >= 140 || letterNumber <= 0;
     }, [letterNumber])
 
     const handleModalVisibility = useCallback(() => {
@@ -57,7 +57,7 @@ const NewPiuModal: React.FC<NewPiuModalProps> = ({ visible, setModalVisibility }
     }, [postarPiu, setNewPiuContent, setModalVisibility, newPiuContent, setLetterNumber])
 
     return (
-        <StyledModal visible={visible} animationType='slide' >
+        <StyledModal visible={visible} animationType='slide' onRequestClose={() => {setModalVisibility(false)}} >
             <ContentContainer>
                 <ButtonContainer onPress={handleModalVisibility} >
                     <DeleteButton source={deleteButton} resizeMode='contain' />
